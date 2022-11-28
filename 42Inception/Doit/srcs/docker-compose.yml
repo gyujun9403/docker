@@ -1,0 +1,16 @@
+version: '2'
+services:
+  nginx:
+    build: ${ENGINX_DIR}
+    image: nginx42
+    container_name: nginx42
+    restart: always
+    ports: 
+      - '443:443'
+    # networks: 
+    #   - network-nginx
+  mariadb:
+    build: ${MARIADB_DIR}
+    image: mariadb42
+    container_name: mairadb42
+    env_file: .env 
