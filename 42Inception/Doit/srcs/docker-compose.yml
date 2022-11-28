@@ -1,6 +1,8 @@
 version: '2'
 services:
   nginx:
+    depends_on:
+      - wordpress
     build: ${ENGINX_DIR}
     image: nginx42
     container_name: nginx42
@@ -14,3 +16,25 @@ services:
     image: mariadb42
     container_name: mairadb42
     env_file: .env 
+    networks:
+      - wp_net
+  
+  wordpress:
+    depends_on:
+      - mariadb
+    build: ${WORDPRESS_DIR}
+    image: wordpress
+    ports:
+      - "8080:80"
+    restart: always
+    environment:
+      - WORDPRESS_DB_HOST=${MARIADB_HOST}
+      - WORDPRESS_DB_NAME=${MARIADB_DB}
+      - WORDPRESS_DB_USER=${MARIADB_USER}
+      - WORDPRESS_DB_PASSWORD=${MARIADB_PWD}
+    networks:
+      - wp_net
+
+networks:
+  wp_net:
+    driver: bridge
