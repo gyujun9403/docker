@@ -1,16 +1,35 @@
 version: '2'
 services:
+  mariadb:
+    build: ${MARIADB_DIR}
+    image: mariadb42
+    container_name: mariadb42
+    env_file: .env 
+    networks: 
+      - net-wordpress
+  wordpress:
+    depends_on:
+      - mariadb
+    build: ${WORDPRESS_DIR}
+    image: wordpress42
+    container_name: wordpress42
+    env_file: .env 
+    ports: 
+      - '3306'
+    networks: 
+      - net-wordpress
   nginx:
+    depends_on:
+      - wordpress
     build: ${ENGINX_DIR}
     image: nginx42
     container_name: nginx42
     restart: always
     ports: 
       - '443:443'
-    # networks: 
-    #   - network-nginx
-  mariadb:
-    build: ${MARIADB_DIR}
-    image: mariadb42
-    container_name: mairadb42
-    env_file: .env 
+    networks: 
+      - net-wordpress
+networks: 
+  net-wordpress:
+    driver: bridge
+    name: net-wordpress
