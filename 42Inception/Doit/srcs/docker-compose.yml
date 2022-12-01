@@ -7,6 +7,8 @@ services:
     env_file: .env 
     networks: 
       - net-wordpress
+    volumes:
+      - volume_db:${MARIADB_DATA_DIR}
   wordpress:
     depends_on:
       - mariadb
@@ -21,6 +23,7 @@ services:
   nginx:
     depends_on:
       - wordpress
+      - mariadb
     build: ${ENGINX_DIR}
     image: nginx42
     container_name: nginx42
@@ -33,3 +36,19 @@ networks:
   net-wordpress:
     driver: bridge
     name: net-wordpress
+
+volumes:
+  # Volume for MariaDB
+  volume_db:
+    # Driver Selection among Local, Volume (Docker Volume), Temporary File System (tmpfs)
+    driver: local
+    # Driver Options for the Selection
+    driver_opts:
+      # Binding Path
+      device: ${VOLUMES_DIR}/mariadb
+      # Mount Option (Reference from mount Command Manual)
+      o: bind
+      # Volume Type
+      type: none
+    # Volume Name (Not to Make srcs Prefix)
+    name: volume_db
