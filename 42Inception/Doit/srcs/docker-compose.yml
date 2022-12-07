@@ -7,6 +7,8 @@ services:
     env_file: .env 
     networks: 
       - net-wordpress
+    ports: 
+      - '3306'
     volumes:
       - volume_db:${MARIADB_DATA_DIR}
   wordpress:
@@ -22,6 +24,7 @@ services:
       - net-wordpress
     volumes:
       - volume_wp:${WORDPRESS_DATA_DIR}
+    #command: mysql -u root -h mariadb -p${MARIADB_PWD}
   nginx:
     depends_on:
       - wordpress
