@@ -25,47 +25,13 @@ services:
   nginx:
     depends_on:
       - wordpress
-<<<<<<< HEAD
-=======
       - mariadb
->>>>>>> c503bcea62a314a85a2765eee673ad212e08d59e
     build: ${ENGINX_DIR}
     image: nginx
     container_name: nginx
     restart: always
     ports: 
       - '443:443'
-<<<<<<< HEAD
-    # networks: 
-    #   - network-nginx
-  mariadb:
-    build: ${MARIADB_DIR}
-    image: mariadb42
-    container_name: mairadb42
-    env_file: .env 
-    networks:
-      - wp_net
-  
-  wordpress:
-    depends_on:
-      - mariadb
-    build: ${WORDPRESS_DIR}
-    image: wordpress
-    ports:
-      - "8080:80"
-    restart: always
-    environment:
-      - WORDPRESS_DB_HOST=${MARIADB_HOST}
-      - WORDPRESS_DB_NAME=${MARIADB_DB}
-      - WORDPRESS_DB_USER=${MARIADB_USER}
-      - WORDPRESS_DB_PASSWORD=${MARIADB_PWD}
-    networks:
-      - wp_net
-
-networks:
-  wp_net:
-    driver: bridge
-=======
     networks: 
       - net-wordpress
     volumes:
@@ -90,4 +56,3 @@ volumes:
       o: bind
       type: none
     name: volume_wp
->>>>>>> c503bcea62a314a85a2765eee673ad212e08d59e
