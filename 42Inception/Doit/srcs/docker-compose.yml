@@ -2,60 +2,60 @@ version: '2'
 services:
   mariadb:
     build: ${MARIADB_DIR}
-    image: mariadb
-    container_name: mariadb
+    image: ${IMG_MARIADB_NAME}
+    container_name: ${CON_MARIADB_NAME}
     env_file: .env 
     networks: 
       - net-wordpress
     ports: 
       - '3306'
     volumes:
-      - volume_db:${MARIADB_DATA_DIR}
+      - vol-mariadb:${MARIADB_DATA_DIR}
   wordpress:
     depends_on:
       - mariadb
     build: ${WORDPRESS_DIR}
-    image: wordpress
-    container_name: wordpress
+    image: ${IMG_WORDPRESS_NAME}
+    container_name: ${CON_WORDPRESS_NAME}
     env_file: .env 
     ports: 
       - '9000'
     networks: 
       - net-wordpress
     volumes:
-      - volume_wp:${WORDPRESS_DATA_DIR}
+      - vol-wordpress:${WORDPRESS_DATA_DIR}
     #command: mysql -u root -h mariadb -p${MARIADB_PWD}
   nginx:
     depends_on:
       - wordpress
       - mariadb
-    build: ${ENGINX_DIR}
-    image: nginx
-    container_name: nginx
+    build: ${NGINX_DIR}
+    image: ${IMG_NGINX_NAME}
+    container_name: ${CON_NGINX_NAME}
     restart: always
     ports: 
       - '443:443'
     networks: 
       - net-wordpress
     volumes:
-      - volume_wp:${NGINX_DATA_DIR}
+      - vol-wordpress:${NGINX_DATA_DIR}
 networks: 
   net-wordpress:
     driver: bridge
     name: net-wordpress
 
 volumes:
-  volume_db:
+  vol-mariadb:
     driver: local
     driver_opts:
       device: ${VOLUMES_DIR}/mariadb
       o: bind
       type: none
-    name: volume_db
-  volume_wp:
+    name: vol-mariadb
+  vol-wordpress:
     driver: local
     driver_opts:
       device: ${VOLUMES_DIR}/wordpress
       o: bind
       type: none
-    name: volume_wp
+    name: vol-wordpress

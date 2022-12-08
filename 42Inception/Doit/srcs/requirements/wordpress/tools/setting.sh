@@ -1,6 +1,6 @@
 #sed -i 's/define( 'DB_NAME', '' )/변경할 내용/g' 파일명.txt
 # sed 구분 문자 변경 : https://utest.co.kr/43
-sed -i "s/database_name_here/${MARIADB_DB}/g" /var/www/html/wp-config.php
+sed -i "s/database_name_here/${MARIADB_DB_NAME}/g" /var/www/html/wp-config.php
 sed -i "s/username_here/${MARIADB_USER}/g" /var/www/html/wp-config.php
 sed -i "s/password_here/${MARIADB_PWD}/g" /var/www/html/wp-config.php
 sed -i "s/localhost/${MARIADB_HOST}/g" /var/www/html/wp-config.php
