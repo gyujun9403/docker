@@ -12,11 +12,13 @@ RUN apt-get update &&\
         #chown -R www-data:www-data /var/run/nginx /var/run/php/
 
 #COPY conf/default.conf /etc/nginx/conf.d/default.conf
-COPY conf/default.conf /tmp/default.conf
+# COPY conf/default.conf /tmp/default.conf
+# COPY tools/nginx.sh /tmp/nginx.sh
+COPY conf/default.conf /etc/nginx/conf.d/default.conf
 COPY tools/nginx.sh /tmp/nginx.sh
+RUN chmod +x /tmp/nginx.sh
 #https://localhost:443
 EXPOSE 443
 #WORKDIR /etc/nginx
 #CMD ["nginx"]
-RUN chmod +x /tmp/nginx.sh
 ENTRYPOINT ["sh", "-c", "/tmp/nginx.sh"]

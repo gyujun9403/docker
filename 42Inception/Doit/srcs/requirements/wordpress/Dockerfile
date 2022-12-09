@@ -1,16 +1,5 @@
 FROM debian:buster
 
-# <<<<<<< HEAD
-# # 
-# RUN apt-get update &&\
-#     apt-get install curl php-mysql php7 php7-phar php7-json php7-curl php7-fpm php7-mysqli php7-iconv &&\
-#     mkdir -p /var/www/wordpress && \
-#     curl -O https://wordpress.org/latest.tar.gz && \
-#     tar -xzf latest.tar.gz -C /var/www/html/ && \
-# #    curl -s -L https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar --output /usr/bin/wp && \
-#     chmod +x /usr/bin/wp && \
-#     chown -R www-data:www-data /var/www/html/wordpress애
-# =======
 RUN apt-get update -y && apt-get upgrade -y && \
     apt-get -y install php7.3 php-fpm php-cli wget \
     curl php-mysql php-mbstring php-xml sendmail vim && \
@@ -29,4 +18,3 @@ RUN rm -r /wordpress latest.tar.gz && \
 COPY ./tools/setting.sh /tmp/setting.sh
 RUN chmod +x /tmp/setting.sh
 ENTRYPOINT ["sh", "-c", "/tmp/setting.sh"]
-# >>>>>>> c503bcea62a314a85a2765eee673ad212e08d59e
