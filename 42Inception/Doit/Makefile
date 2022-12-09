@@ -23,7 +23,7 @@ NGINX_CONF_DIR = ./srcs/requirements/nginx/conf
 ALL : set
 
 set : VOLUME_SET ENV_INIT NGINX_CONF_INIT
-	sudo docker compose -f $(COMPOSE_YML_DIR)/docker compose.yml up -d
+	sudo docker compose -f $(COMPOSE_YML_DIR)/docker-compose.yml up -d
 
 VOLUME_SET : CLEAN_DIR MAKE_DIR
 
@@ -66,7 +66,7 @@ rm : down ENV_RM NGINX_CONF_RM
 	sudo docker image rm $(IMG_MARIADB)
 	
 down :
-	sudo docker compose -f $(COMPOSE_YML_DIR)/docker compose.yml down
+	sudo docker compose -f $(COMPOSE_YML_DIR)/docker-compose.yml down
 
 reset : rm set
 
