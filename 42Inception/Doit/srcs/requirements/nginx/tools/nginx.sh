@@ -1,2 +1,2 @@
-# mv /tmp/default.conf /etc/nginx/conf.d/default.conf
+sleep 10;
 nginx -g 'daemon off;'

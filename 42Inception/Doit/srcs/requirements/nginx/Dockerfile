@@ -8,17 +8,11 @@ RUN apt-get update &&\
         -keyout /etc/nginx/ssl/gyeon.42.fr.key \
         -subj "/C=KR/ST=Seoul/L=Songpa-gu/O=42/OU=42Seoul/CN=gyeon.42.fr" &&\
         chmod 600 /etc/nginx/ssl/gyeon.42.fr.crt /etc/nginx/ssl/gyeon.42.fr.key && \
-        rm -rf /etc/nginx/conf.d/default.conf
-        #chown -R www-data:www-data /var/run/nginx /var/run/php/
+        rm -rf /etc/nginx/conf.d/default.conf && \
+        chown -R www-data:www-data /var/run/nginx /var/run/php/
 
-#COPY conf/default.conf /etc/nginx/conf.d/default.conf
-# COPY conf/default.conf /tmp/default.conf
-# COPY tools/nginx.sh /tmp/nginx.sh
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
 COPY tools/nginx.sh /tmp/nginx.sh
 RUN chmod +x /tmp/nginx.sh
-#https://localhost:443
 EXPOSE 443
-#WORKDIR /etc/nginx
-#CMD ["nginx"]
 ENTRYPOINT ["sh", "-c", "/tmp/nginx.sh"]
