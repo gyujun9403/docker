@@ -22,21 +22,22 @@ NGINX_CONF_DIR = ./srcs/requirements/nginx/conf
 
 ALL : up
 
-up : VOLUME_SET ENV_INIT NGINX_CONF_INIT
+up : MAKE_VOL ENV_INIT NGINX_CONF_INIT
 	sudo docker compose -f $(COMPOSE_YML_DIR)/docker-compose.yml up --build --force-recreate -d
 	@sudo bash ./cnt.sh
-
-VOLUME_SET : CLEAN_DIR MAKE_VOL
-
-CLEAN_DIR :
-	sudo rm -rf $(VOLUME_DIR)
+# ifeq ("$(wildcard .setup)", "")
+# 	sudo chmod +w /etc/hosts
+# 	sudo echo "127.0.0.1 jseo.42.fr" >> /etc/hosts
+# 	sudo chmod -w /etc/hosts
+# 	touch .setup
+# endif
 
 MAKE_VOL :
 	sudo mkdir -p $(VOLUME_DIR)/mariadb
 	sudo mkdir -p $(VOLUME_DIR)/wordpress
 
 RM_VOL :
-	sudo rm -rf $(VOLUME_DIR)
+	sudo rm -rf $(VOLUME_DIR)/*
 
 ENV_INIT :
 	@cp $(ENV_DIR)/.env.Template $(ENV_DIR)/.env
@@ -65,8 +66,10 @@ NGINX_CONF_INIT :
 NGINX_CONF_RM :
 	sudo rm -f $(NGINX_CONF_DIR)/default.conf
 
-BACKUP :
-	sudo 
+# BACKUP :
+# 	sudo mkdir -p $(VOLUME_DIR)/Backup_$(DATE)
+# 	sudo cp -r $(VOLUME_DIR)/mariadb $(VOLUME_DIR)/Backup_$(today)/
+# 	sudo cp -r $(VOLUME_DIR)/wordpress $(VOLUME_DIR)/Backup_$(today)/
 
 rm : down RM_VOL ENV_RM NGINX_CONF_RM
 	-sudo docker image rm $(IMG_NGINX)
