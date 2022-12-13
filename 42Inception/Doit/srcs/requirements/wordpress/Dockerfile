@@ -1,6 +1,7 @@
 FROM debian:buster
 
 RUN apt-get update -y && apt-get upgrade -y && \
+    apt-get install procps -y && \
     apt-get -y install php7.3 php-fpm php-cli wget \
     curl php-mysql php-mbstring php-xml sendmail vim && \
     apt-get -y install mariadb-client
@@ -18,3 +19,4 @@ COPY ./tools/setting.sh /tmp/setting.sh
 COPY conf/wp-config.php /var/www/wordpress/wp-config.php
 RUN chmod +x /tmp/setting.sh
 ENTRYPOINT ["sh", "-c", "/tmp/setting.sh"]
+ENTRYPOINT ["/usr/sbin/php-fpm7.3", "-F"]

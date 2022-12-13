@@ -1,6 +1,7 @@
 FROM debian:buster
 
-RUN apt-get update &&\
+RUN apt-get update -y && apt-get upgrade -y &&\
+    apt-get install procps -y && \
     apt-get install nginx openssl -y && \
     mkdir -p /etc/nginx/ssl /var/run/nginx /var/run/php/ && \
     openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
@@ -16,3 +17,5 @@ COPY tools/nginx.sh /tmp/nginx.sh
 RUN chmod +x /tmp/nginx.sh
 EXPOSE 443
 ENTRYPOINT ["sh", "-c", "/tmp/nginx.sh"]
+ENTRYPOINT ["/usr/sbin/nginx", "-g", "daemon off;"]
+# /usr/sbin/nginx

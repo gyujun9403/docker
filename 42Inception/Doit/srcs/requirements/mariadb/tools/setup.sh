@@ -11,4 +11,4 @@ if [ $? -ne 0 ]; then
   mysqladmin -u $MARIADB_ROOT -p shutdown
   touch /var/lib/mysql/.setup
 fi
-exec mysqld
+#exec mysqld

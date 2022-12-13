@@ -15,4 +15,4 @@ if [ $? -ne 0 ]; then
   touch /var/lib/wordpress/.setup
 fi
 # 소켓 바인딩 에러 문제 발생하여, 
-exec php-fpm7.3 -F
+#exec php-fpm7.3 -F

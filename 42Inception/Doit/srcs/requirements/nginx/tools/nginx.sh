@@ -1,2 +1,2 @@
 sleep 10;
-nginx -g 'daemon off;'
+#nginx -g 'daemon off;'
