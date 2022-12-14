@@ -3,7 +3,6 @@ server {
     listen [::]:443 ssl;
 
     server_name !INTRA.42.fr;
-    #SSL configuration
 
     ssl_certificate /etc/nginx/ssl/!INTRA.42.fr.crt ;
     ssl_certificate_key /etc/nginx/ssl/!INTRA.42.fr.key;

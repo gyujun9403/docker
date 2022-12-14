@@ -1,4 +1,4 @@
-version: '2'
+version: '3.8'
 services:
   mariadb:
     build: ${MARIADB_DIR}
@@ -7,11 +7,11 @@ services:
     restart: always
     env_file: .env 
     networks: 
-      - net-wordpress
+      - net-inception
     ports: 
       - '3306'
     volumes:
-      - vol-mariadb:${MARIADB_DATA_DIR}
+      - vol-DB:${MARIADB_DATA_DIR}
   wordpress:
     depends_on:
       - mariadb
@@ -20,13 +20,12 @@ services:
     container_name: ${CON_WORDPRESS_NAME}
     restart: always
     env_file: .env 
+    networks: 
+      - net-inception
     ports: 
       - '9000'
-    networks: 
-      - net-wordpress
     volumes:
-      - vol-wordpress:${WORDPRESS_DATA_DIR}
-    #command: mysql -u root -h mariadb -p${MARIADB_PWD}
+      - vol-WordPress:${WORDPRESS_DATA_DIR}
   nginx:
     depends_on:
       - wordpress
@@ -35,29 +34,30 @@ services:
     image: ${IMG_NGINX_NAME}
     container_name: ${CON_NGINX_NAME}
     restart: always
+    env_file: .env 
+    networks: 
+      - net-inception
     ports: 
       - '443:443'
-    networks: 
-      - net-wordpress
     volumes:
-      - vol-wordpress:${NGINX_DATA_DIR}
+      - vol-WordPress:${NGINX_DATA_DIR}
 networks: 
-  net-wordpress:
+  net-inception:
     driver: bridge
-    name: net-wordpress
+    name: net-inception
 
 volumes:
-  vol-mariadb:
+  vol-DB:
     driver: local
     driver_opts:
-      device: ${VOLUMES_DIR}/mariadb
+      device: ${VOLUMES_DIR}/DB
       o: bind
       type: none
-    name: vol-mariadb
-  vol-wordpress:
+    name: vol-DB
+  vol-WordPress:
     driver: local
     driver_opts:
-      device: ${VOLUMES_DIR}/wordpress
+      device: ${VOLUMES_DIR}/WordPress
       o: bind
       type: none
-    name: vol-wordpress
+    name: vol-WordPress
