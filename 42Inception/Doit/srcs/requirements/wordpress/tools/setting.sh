@@ -7,11 +7,10 @@ if [ $? -ne 0 ]; then
   sed -i "s/username_here/${MARIADB_USER}/g" /var/www/wordpress/wp-config.php
   sed -i "s/password_here/${MARIADB_PWD}/g" /var/www/wordpress/wp-config.php
   sed -i "s/localhost/${MARIADB_HOST}/g" /var/www/wordpress/wp-config.php
-  # option : https://developer.wordpress.org/cli/commands/config/create/
   wp core install --url="${WORDPRESS_URL}" --title="${WORDPRESS_TITLE}" --admin_user="${WORDPRESS_ADMIN_USER}" --admin_password="${WORDPRESS_ADMIN_PWD}" --admin_email="${WORDPRESS_ADMIN_EMAIL}" --skip-email --path=/var/www/wordpress --allow-root
   wp plugin update --all --path=/var/www/wordpress --allow-root
   wp user create $WORDPRESS_USER $WORDPRESS_USER_EMAIL --role=author --user_pass=$WORDPRESS_USER_PWD --path=/var/www/wordpress --allow-root
   touch /var/lib/wordpress/.setup
 fi
-# 소켓 바인딩 에러 문제 발생하여, 
+
 exec php-fpm7.3 -F

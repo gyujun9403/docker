@@ -41,6 +41,7 @@ services:
       - '443:443'
     volumes:
       - vol-WordPress:${NGINX_DATA_DIR}
+
 networks: 
   net-inception:
     driver: bridge
