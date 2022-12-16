@@ -1,6 +1,8 @@
 #************************************************
 #****DONT change env value likely env's name*****
 #************************************************
+#*******If you changed value, do make rm*********
+#************************************************
 
 # intra id
 ## if change this, You must change ./requirements/nginx/Dockerfile's ARG INTRA too.
